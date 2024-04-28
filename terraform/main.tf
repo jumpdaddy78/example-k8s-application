@@ -81,6 +81,7 @@ resource "null_resource" "update_kubeconfig" {
     }
   }
 resource "helm_release" "ingress_nginx" {
+  depends_on = [ null_resource.update_kubeconfig ]
   name       = "ingress-nginx"
   repository = "https://kubernetes.github.io/ingress-nginx"
   chart      = "ingress-nginx"
@@ -88,6 +89,7 @@ resource "helm_release" "ingress_nginx" {
   namespace = "ingress-nginx"
 }
 resource "helm_release" "argocd" {
+  depends_on = [ null_resource.update_kubeconfig ]
   name = "argocd"
   repository = "https://argoproj.github.io/argo-helm"
   chart = "argo-cd"
